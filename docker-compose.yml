@@ -1,0 +1,45 @@
+# Aditya-FlareCast — API + dashboard, sharing a generated data/model volume.
+#
+#   docker compose up --build
+#
+# The one-shot `bootstrap` service generates synthetic data, builds the
+# catalogue, and trains the model into the shared volume before the API and
+# dashboard start serving it.
+services:
+  bootstrap:
+    build: .
+    command: ["python", "-m", "aditya_flarecast.cli", "pipeline", "--config", "configs/default.yaml"]
+    volumes:
+      - flarecast-data:/app/data
+      - flarecast-models:/app/models
+
+  api:
+    build: .
+    command: ["uvicorn", "aditya_flarecast.api.main:app", "--host", "0.0.0.0", "--port", "8000"]
+    environment:
+      AFC_CONFIG: configs/default.yaml
+    ports:
+      - "8000:8000"
+    volumes:
+      - flarecast-data:/app/data
+      - flarecast-models:/app/models
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+
+  dashboard:
+    build: .
+    command: ["streamlit", "run", "src/aditya_flarecast/dashboard/app.py",
+              "--server.address", "0.0.0.0", "--server.port", "8501"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - flarecast-data:/app/data
+      - flarecast-models:/app/models
+    depends_on:
+      bootstrap:
+        condition: service_completed_successfully
+
+volumes:
+  flarecast-data:
+  flarecast-models:

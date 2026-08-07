@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "aditya-flarecast"
+version = "1.0.0"
+description = "Solar-flare nowcasting & forecasting from Aditya-L1 SoLEXS + HEL1OS X-ray data"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Aditya-FlareCast contributors" }]
+keywords = ["solar-flare", "space-weather", "aditya-l1", "solexs", "hel1os", "forecasting"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Topic :: Scientific/Engineering :: Astronomy",
+    "Intended Audience :: Science/Research",
+]
+
+# Core runtime deps — deliberately lean so the pipeline runs anywhere.
+dependencies = [
+    "numpy>=1.24",
+    "pandas>=2.0",
+    "scipy>=1.10",
+    "scikit-learn>=1.3",
+    "pyyaml>=6.0",
+    "pydantic>=2.5",
+    "pydantic-settings>=2.1",
+    "typer>=0.12",
+    "sqlalchemy>=2.0",
+    "pyarrow>=14.0",
+]
+
+[project.optional-dependencies]
+# Heavier / optional back-ends and interfaces.
+boost = ["lightgbm>=4.0"]
+deep = ["torch>=2.1"]
+serve = ["fastapi>=0.110", "uvicorn>=0.27"]
+dashboard = ["streamlit>=1.30", "matplotlib>=3.7"]
+fits = ["astropy>=6.0", "cdflib>=1.2"]
+dev = ["pytest>=8.0", "pytest-cov>=4.1", "ruff>=0.3", "black>=24.0", "mypy>=1.8"]
+all = [
+    "lightgbm>=4.0", "torch>=2.1", "fastapi>=0.110", "uvicorn>=0.27",
+    "streamlit>=1.30", "matplotlib>=3.7", "astropy>=6.0", "cdflib>=1.2",
+]
+
+[project.scripts]
+aditya-flarecast = "aditya_flarecast.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/your-org/aditya-flarecast"
+Documentation = "https://github.com/your-org/aditya-flarecast/blob/main/README.md"
+
+[tool.setuptools]
+package-dir = { "" = "src" }
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4"]
+ignore = ["B008", "E501"]
+
+[tool.black]
+line-length = 100
+target-version = ["py310"]
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_ignores = false

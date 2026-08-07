@@ -1,0 +1,12 @@
+# Fast config for smoke tests / CI: a short timeline, coarse cadence.
+random_seed: 7
+log_level: INFO
+instrument:
+  analysis_cadence_s: 30.0
+forecast:
+  model: hist_gbm
+  min_class: C
+  stride_min: 5.0
+synthetic:
+  n_days: 4.0
+  flares_per_day: 10.0

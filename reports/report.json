@@ -1,0 +1,65 @@
+{
+  "config": "configs/default.yaml",
+  "nowcast": {
+    "n_truth": 141,
+    "n_detected": 133,
+    "tp": 130,
+    "fp": 3,
+    "fn": 11,
+    "recall": 0.9219858156028369,
+    "precision": 0.9774436090225563,
+    "per_class": {
+      "B": {
+        "n_truth": 96,
+        "n_detected": 86,
+        "recall": 0.8958333333333334
+      },
+      "C": {
+        "n_truth": 39,
+        "n_detected": 38,
+        "recall": 0.9743589743589743
+      },
+      "M": {
+        "n_truth": 6,
+        "n_detected": 6,
+        "recall": 1.0
+      }
+    },
+    "tolerance_s": 300.0
+  },
+  "forecast": {
+    "threshold": 0.6666,
+    "point_metrics": {
+      "tp": 6900,
+      "fp": 2371,
+      "fn": 9217,
+      "tn": 154312,
+      "pod": 0.42811937705528325,
+      "far": 0.25574371696688597,
+      "pofd": 0.01513246491323245,
+      "precision": 0.744256283033114,
+      "f1": 0.5435638884512367,
+      "csi": 0.37321505841627,
+      "tss": 0.4129869121420508,
+      "hss": 0.5101991199420743,
+      "accuracy": 0.9329398148148148,
+      "base_rate": 0.09326967592592593
+    },
+    "brier_score": 0.07236327466495311,
+    "flare_level": {
+      "n_flares": 45,
+      "n_hit": 45,
+      "hit_rate": 1.0,
+      "lead_time_min": {
+        "n": 45,
+        "mean": 47.94407407407407,
+        "median": 57.4,
+        "p10": 8.98,
+        "p90": 59.95333333333333,
+        "max": 60.0
+      }
+    },
+    "n_samples": 172800,
+    "positive_rate": 0.09326967592592593
+  }
+}

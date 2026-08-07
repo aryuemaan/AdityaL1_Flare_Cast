@@ -1,0 +1,52 @@
+# ---------------------------------------------------------------------------
+# Aditya-FlareCast — default configuration
+# Override any value with an AFC_ env var, e.g.  AFC_RANDOM_SEED=7
+# ---------------------------------------------------------------------------
+random_seed: 42
+log_level: INFO
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  catalogues: data/catalogues
+  models: models
+
+instrument:
+  solexs_cadence_s: 1.0
+  hel1os_cadence_s: 1.0
+  analysis_cadence_s: 10.0          # common grid both streams are resampled to
+  solexs_flux_band: flux_1_8A       # GOES-equivalent soft band (W/m^2)
+  solexs_hard_soft_band: flux_0_5_4A
+  hel1os_low_band: counts_10_30keV  # hard X-ray count rates (counts/s)
+  hel1os_high_band: counts_30_70keV
+
+nowcast:
+  background_window_min: 30.0
+  background_percentile: 10.0
+  soft_threshold_factor: 1.4        # flux must exceed background * factor
+  soft_min_rise_s: 60.0
+  soft_min_flux: 1.0e-8
+  hard_sigma: 4.0                   # MAD sigma for impulsive-burst detection
+  hard_min_duration_s: 20.0
+  fusion_window_s: 300.0            # soft/hard coincidence window
+
+forecast:
+  lookback_min: 60.0                # feature window
+  horizon_min: 60.0                 # predict a flare within the next N minutes
+  min_class: C                      # positive label = flare >= this class
+  stride_min: 5.0
+  model: hist_gbm                   # hist_gbm | lightgbm | lstm
+  alert_threshold: 0.5
+  test_fraction: 0.25
+  val_fraction: 0.15
+
+synthetic:
+  n_days: 20.0
+  cadence_s: 1.0
+  flares_per_day: 6.0
+  flux_power_law_alpha: 1.8
+  flux_min: 3.0e-7
+  flux_max: 5.0e-4
+  precursor_fraction: 0.45
+  background_flux: 8.0e-9

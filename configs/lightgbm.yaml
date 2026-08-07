@@ -1,0 +1,4 @@
+# Use the LightGBM back-end (requires the 'boost' extra).
+forecast:
+  model: lightgbm
+  min_class: C

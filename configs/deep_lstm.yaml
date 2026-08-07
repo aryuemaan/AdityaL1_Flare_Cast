@@ -1,0 +1,7 @@
+# Use the PyTorch LSTM back-end (requires the 'deep' extra).
+instrument:
+  analysis_cadence_s: 30.0
+forecast:
+  model: lstm
+  min_class: C
+  lookback_min: 90.0
